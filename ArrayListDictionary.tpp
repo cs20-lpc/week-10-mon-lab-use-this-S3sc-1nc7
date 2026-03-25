@@ -82,10 +82,14 @@ Val ArrayListDictionary<Key, Val>::find(const Key& k) const {
     numComps = 0;
 
     try {
+        cout << "Sequential Search (Iterative): " << endl;
         return seqSearchIter(k);
-        // return seqSearchRec(k);
-        // return binSearchIter(k, 0, list->getLength() - 1);
-        // return binSearchRec(k, 0, list->getLength() - 1);
+        cout << "Sequential Search (Recursive): " << endl;
+        return seqSearchRec(k);
+        cout << "Binary Search (Iterative): " << endl;
+        return binSearchIter(k, 0, list->getLength() - 1);
+        cout << "Binary Search (Recursive): " << endl;
+        return binSearchRec(k, 0, list->getLength() - 1);
     }
     catch (...) {
         throw string("find: error, unsuccessful search, target key not found");
