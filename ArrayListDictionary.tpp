@@ -27,11 +27,44 @@ ArrayListDictionary<Key, Val>::~ArrayListDictionary() {
 template <typename Key, typename Val>
 Val ArrayListDictionary<Key, Val>::binSearchIter(const Key& target, int left, int right) const {
     // TODO
+    int center = (left + right) / 2;
+    while (left <= right) {
+        Record rec = list->getElement(center);
+        numComps++; //iter comp
+
+        if (rec.k == target) {
+            return rec.v;
+        }
+        else if (rec.k > target) {
+            right = center - 1;
+        }
+        else {
+            left = center + 1;
+        }
+        center = (left + right) / 2;
+    }
+    throw string("binSearchIter");  // not found
 }
 
 template <typename Key, typename Val>
 Val ArrayListDictionary<Key, Val>::binSearchRec(const Key& target, int left, int right) const {
     // TODO
+    if (left > right) {
+        throw string("binSearchRec");  // not found
+    }
+    int center = (left + right) / 2;
+    Record rec = list->getElement(center);
+    numComps++; // iter comparisons
+
+    if (rec.k == target) {
+        return rec.v;
+    }
+    else if (rec.k > target) {
+        binSearchRec(target, left, center - 1);
+    }
+    else {
+        binSearchRec(target, center + 1, right);
+    }
 }
 
 template <typename Key, typename Val>
@@ -89,11 +122,28 @@ void ArrayListDictionary<Key, Val>::remove(const Key& k) {
 template <typename Key, typename Val>
 Val ArrayListDictionary<Key, Val>::seqSearchIter(const Key& target) const {
     // TODO
+    for (int i = 0; i < list->getLength(); i++) {
+        Record rec = list->getElement(i);
+        numComps++;  //inc numComps
+        if (rec.k == target){
+            return rec.v;
+        }
+    }
+    throw string("seqSearchIter");
 }
 
 template <typename Key, typename Val>
 Val ArrayListDictionary<Key, Val>::seqSearchRec(const Key& target, int i) const {
     // TODO
+    if (i >= list->getLength()) {
+        throw string("seqSearchRec");
+    }
+    Record rec = list->getElement(i);
+    numComps++;
+    if (rec.k == target) {
+        return rec.v;
+    }
+    return seqSearchRec(target, ++i);
 }
 
 template <typename Key, typename Val>
